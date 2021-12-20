@@ -293,11 +293,10 @@ describe("Facturation API", () => {
           expect.arrayContaining([
             expect.objectContaining({
               facture_id: expect.any(Number),
-              date_saisie: expect.any(Date),
-              date_deadline: expect.any(Date),
+              date_saisie: expect.any(String),
+              date_deadline: expect.any(String),
               payment_method: expect.any(String),
-              postcode: expect.any(String),
-              rate_discount: expect.any(String),
+              rate_discount: expect.any(Number),
               infoperso_id: expect.any(Number),
               customer_id: expect.any(Number),
             }),
@@ -308,14 +307,14 @@ describe("Facturation API", () => {
 
   test("GET /facture/:id => Array facture", () => {
     return request(app)
-      .get("/api/v1/infoperso/2")
+      .get("/api/v1/facture/2")
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(
           expect.objectContaining({
             facture_id: expect.any(Number),
-            date_saisie: expect.any(Date),
-            date_deadline: expect.any(Date),
+            date_saisie: expect.any(String),
+            date_deadline: expect.any(String),
             payment_method: expect.any(String),
             rate_discount: expect.any(Number),
             infoperso_id: expect.any(Number),
@@ -333,18 +332,18 @@ describe("Facturation API", () => {
         date_deadline: "2021-12-16",
         payment_method: "Visa",
         rate_discount: 2.36,
-        infoperso_id: 1,
+        infoperso_id: 2,
         customer_id: 2,
       })
       .expect(201)
       .then((response) => {
         expect(response.body).toEqual(
           expect.objectContaining({
-            date_saisie: "2021-12-14",
-            date_deadline: "2021-12-16",
+            date_saisie: "2021-12-13T23:00:00.000Z",
+            date_deadline: "2021-12-15T23:00:00.000Z",
             payment_method: "Visa",
             rate_discount: 2.36,
-            infoperso_id: 1,
+            infoperso_id: 2,
             customer_id: 2,
           })
         );
@@ -361,7 +360,7 @@ describe("Facturation API", () => {
   });
 
   test("DELETE /facture/:id => Array facture", () => {
-    return request(app).delete("/api/v1/facture/1").send().expect(201);
+    return request(app).delete("/api/v1/facture/1").send().expect(200);
   });
 
   //  FIN FACTURE TEST  //

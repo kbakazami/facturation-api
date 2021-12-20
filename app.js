@@ -345,10 +345,92 @@ ProductRouter.route("/add").post(async (req, res) => {
 
 // Fin Router Product //
 
+// Route Facture //
+let FactureRouter = express.Router();
+
+FactureRouter.route("/all").get(async (req, res) => {
+    try {
+        const allFacture = await pool.query("SELECT * FROM facture");
+
+        res.json(allFacture.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+FactureRouter.route("/:id")
+    // Récupération d'une facture en fonction de son id
+    .get(async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const oneFacture = await pool.query(
+                "SELECT * FROM Facture WHERE facture_id = $1",
+                [id]
+            );
+
+            res.json(oneFacture.rows[0]);
+        } catch (err) {
+            console.log(err.message);
+        }
+    })
+
+    //Modifie les paramètres d'une facture en fonction de son id
+    .put(async (req, res) => {
+        try {
+            const { id } = req.params;
+            const {date_saisie, date_deadline, payment_method, rate_discount, infoperso_Id, customer_Id } = req.body;
+
+            const modifFacture = await pool.query(
+                "UPDATE facture SET date_saisie = COALESCE($1, date_saisie), date_deadline = COALESCE($2, date_deadline), payment_method = COALESCE($3, payment_method), rate_discount = COALESCE($4, rate_discount), infoperso_Id = COALESCE($5, infoperso_Id), customer_Id = COALESCE($6, customer_Id) WHERE facture_id = $7",
+                [date_saisie, date_deadline, payment_method, rate_discount, infoperso_Id, customer_Id , id ]
+            );
+
+            res.status(201).json("facture update !");
+        } catch (err) {
+            console.log(err.message);
+        }
+    })
+
+    // Suppression d'une facture
+    .delete(async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const deleteFacture = await pool.query(
+                "DELETE FROM facture WHERE facture_id = $1",
+                [id]
+            );
+
+            res.json("Delete effectued !");
+        } catch (err) {
+            console.log(err.message);
+        }
+    });
+
+// Crée un facture
+FactureRouter.route("/add").post(async (req, res) => {
+    try {
+        const {date_saisie, date_deadline, payment_method, rate_discount, infoperso_id, customer_id  } = req.body;
+
+        const newFacture = await pool.query(
+            "INSERT INTO facture (date_saisie, date_deadline, payment_method, rate_discount, infoperso_Id, customer_Id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+            [date_saisie, date_deadline, payment_method, rate_discount, infoperso_id, customer_id  ]
+        );
+
+        res.status(201).json(newFacture.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// Fin Route Facture //
+
 // Déclaration des middleware route
 app.use(config.rootAPI + "infoperso", InfoPersoRouter);
 app.use(config.rootAPI + "customer", CustomerRouter);
 app.use(config.rootAPI + "product", ProductRouter);
+app.use(config.rootAPI + "facture", FactureRouter);
 
 app.listen(config.port, () => console.log("started on port " + config.port));
 
