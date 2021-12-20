@@ -1,5 +1,7 @@
 // Connexion à la base de donnée postgreSql
 const Pool = require('pg').Pool;
+const dotenv = require('dotenv');
+const result = dotenv.config();
 
 const pool = new Pool({
   user: process.env.DB_USER,
