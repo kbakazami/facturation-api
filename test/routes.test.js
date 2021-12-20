@@ -210,7 +210,7 @@ describe("Facturation API", () => {
           expect.arrayContaining([
             expect.objectContaining({
               product_id: expect.any(Number),
-              description: expect.any(String),
+              name: expect.any(String),
               sale_price_ht: expect.any(Number),
               tva_rate: expect.any(Number),
               remark: expect.any(String),
@@ -230,7 +230,7 @@ describe("Facturation API", () => {
         expect(response.body).toEqual(
           expect.objectContaining({
             product_id: expect.any(Number),
-            description: expect.any(String),
+            name: expect.any(String),
             sale_price_ht: expect.any(Number),
             tva_rate: expect.any(Number),
             remark: expect.any(String),
@@ -245,7 +245,7 @@ describe("Facturation API", () => {
     return request(app)
       .post("/api/v1/product/add")
       .send({
-        description: "test de description",
+        name: "test de description",
         sale_price_ht: 10.0,
         tva_rate: 2.0,
         remark: "ceci est une bonne remark",
@@ -256,7 +256,7 @@ describe("Facturation API", () => {
       .then((response) => {
         expect(response.body).toEqual(
           expect.objectContaining({
-            description: "test de description",
+            name: "test de description",
             sale_price_ht: 10.0,
             tva_rate: 2.0,
             remark: "ceci est une bonne remark",
