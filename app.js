@@ -4,6 +4,8 @@ const morgan = require("morgan");
 const pool = require('./db');
 const config = require('./config');
 const app =express();
+var cors = require('cors');
+app.use(cors());
 
 // Déclaration des middleware
 app.use(morgan("dev"));
@@ -301,11 +303,11 @@ ProductRouter.route("/:id")
   .put(async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, sale_price_HT, tva_rate, remark, purchase_cost, margin_coefficient } = req.body;
+      const { name, sale_price_ht, tva_rate, remark, purchase_cost, margin_coefficient } = req.body;
 
       const modifProduct = await pool.query(
         "UPDATE product SET name = COALESCE($1, name), sale_price_HT = COALESCE($2, sale_price_HT), tva_rate = COALESCE($3, tva_rate), remark = COALESCE($4, remark), purchase_cost = COALESCE($5, purchase_cost), margin_coefficient = COALESCE($6, margin_coefficient) WHERE product_id = $7",
-        [name, sale_price_HT, tva_rate, remark, purchase_cost, margin_coefficient, id]
+        [name, sale_price_ht, tva_rate, remark, purchase_cost, margin_coefficient, id]
       );
 
       res.status(201).json("Product update !");
