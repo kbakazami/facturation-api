@@ -57,11 +57,12 @@ InfoPersoRouter.route("/:id")
         city,
         phone_number,
         siret,
+        tva_number,
         is_tva,
       } = req.body;
 
       const modifInfoPerso = await pool.query(
-        "UPDATE personals_informations SET name = COALESCE($1, name), supplement_name = COALESCE($2, supplement_name), address = COALESCE($3, address), postcode = COALESCE($4, postcode), city = COALESCE($5, city), phone_number = COALESCE($6, phone_number), siret = COALESCE($7, siret), is_tva = COALESCE($8, is_tva) WHERE infoperso_id = $9",
+        "UPDATE personals_informations SET name = COALESCE($1, name), supplement_name = COALESCE($2, supplement_name), address = COALESCE($3, address), postcode = COALESCE($4, postcode), city = COALESCE($5, city), phone_number = COALESCE($6, phone_number), siret = COALESCE($7, siret), tva_number = COALESCE($8, tva_number), is_tva = COALESCE($9, is_tva) WHERE infoperso_id = $10",
         [
           name,
           supplement_name,
@@ -70,6 +71,7 @@ InfoPersoRouter.route("/:id")
           city,
           phone_number,
           siret,
+          tva_number,
           is_tva,
           id,
         ]
@@ -108,11 +110,12 @@ InfoPersoRouter.route("/add").post(async (req, res) => {
       city,
       phone_number,
       siret,
+      tva_number,
       is_tva,
     } = req.body;
 
     const newInfoPerso = await pool.query(
-      "INSERT INTO personals_informations (name, supplement_name, address, postcode,city, phone_number, siret, is_tva) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      "INSERT INTO personals_informations (name, supplement_name, address, postcode,city, phone_number, siret, tva_number, is_tva) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
       [
         name,
         supplement_name,
@@ -121,6 +124,7 @@ InfoPersoRouter.route("/add").post(async (req, res) => {
         city,
         phone_number,
         siret,
+        tva_number,
         is_tva,
       ]
     );
