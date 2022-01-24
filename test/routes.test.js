@@ -32,7 +32,7 @@ describe("Facturation API", () => {
 
   test("GET /customer/:id => Array customer", () => {
     return request(app)
-      .get("/api/v1/customer/2")
+      .get("/api/v1/customer/1")
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(
@@ -224,7 +224,7 @@ describe("Facturation API", () => {
 
   test("GET /product/:id => Array product", () => {
     return request(app)
-      .get("/api/v1/product/2")
+      .get("/api/v1/product/1")
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(

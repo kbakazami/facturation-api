@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "jest --watchAll --coverage"
+    "test": "jest --watchAll --coverage",
+    "jsdoc": "jsdoc ./node_modules/.bin/jsdoc"
   },
   "keywords": [],
   "author": "",
@@ -17,10 +18,13 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
     "jest": "^27.4.5",
+    "jsdoc": "^3.6.7",
     "supertest": "^6.1.6"
   }
 }
